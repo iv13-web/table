@@ -15,5 +15,10 @@ module.exports = {
   rules: {
     'space-before-function-paren': ['error', 'never'],
     'react/react-in-jsx-scope': 'off',
+    'no-tabs': 'off',
+    'indent': 'off',
+    'no-unused-vars': 'off',
+    'object-curly-spacing': 'off',
+    'eol-last': 'off'
   }
 }
