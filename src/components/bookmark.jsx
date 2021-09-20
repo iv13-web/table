@@ -1,19 +1,16 @@
 import PropTypes from 'prop-types'
 
-export default function Bookmark({ status, ...rest }) {
-  const { onClick } = rest
-
+export default function Bookmark({onToggleBookmark, status}) {
   return (
-    <td>
-      <button className="btn-small" onClick={onClick}>
-        <i className="material-icons">
-          {status ? 'bookmark' : 'bookmark_border'}
-        </i>
-      </button>
-    </td>
+    <button className="btn-small" onClick={onToggleBookmark}>
+      <i className="material-icons">
+        {status ? 'bookmark' : 'bookmark_border'}
+      </i>
+    </button>
   )
 }
 
 Bookmark.propTypes = {
-  status: PropTypes.bool.isRequired
+  status: PropTypes.bool.isRequired,
+  onToggleBookmark: PropTypes.func.isRequired
 }
