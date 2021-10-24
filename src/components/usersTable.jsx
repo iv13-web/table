@@ -1,13 +1,20 @@
 import * as PropTypes from 'prop-types'
-import TableHeader from './tableHeader'
-import TableBody from './tableBody'
 import Bookmark from './bookmark'
 import QualitiesList from './qualitiesList'
 import Table from './table'
+import {Link} from 'react-router-dom'
 
 export default function UsersTable({users, onSort, selectedSort, onToggleBookmark, onDelete}) {
   const columns = {
-    name: {path: 'name', name: 'Имя'},
+    name: {
+      path: 'name',
+      name: 'Имя',
+      component: (user) => (
+        <Link to={`/users/${user._id}`}>
+          {user.name}
+        </Link>
+      )
+    },
     qualities: {
       name: 'Качества',
       component: (user) => <QualitiesList qualities={user.qualities}/>
@@ -43,9 +50,7 @@ export default function UsersTable({users, onSort, selectedSort, onToggleBookmar
       selectedSort={selectedSort}
       columns={columns}
       data={users}
-    >
-
-    </Table>
+    />
   )
 }
 

@@ -1,10 +1,17 @@
 import PropTypes from 'prop-types'
 
-export default function Quality({ color, name, _id }) {
+const style = {
+  marginRight: '6px',
+  fontWeight: 'bold',
+  float: 'inherit',
+  marginLeft: 0
+}
+
+export default function Quality({color = 'teal', name, _id}) {
   return (
     <span
       id={_id}
-      style={{ marginRight: '6px', fontWeight: 'bold' }}
+      style={style}
       className={`new badge ${color}`}
       data-badge-caption=""
     >
