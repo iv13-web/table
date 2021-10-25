@@ -1,5 +1,5 @@
-import TableHeader from './tableHeader'
-import TableBody from './tableBody'
+import TableHeader from './TableHeader'
+import TableBody from './TableBody'
 import * as PropTypes from 'prop-types'
 
 export default function Table({onSort, selectedSort, columns, data, children}) {

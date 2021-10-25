@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import Navigation from '../components/navigation'
+import Navigation from '../components/Navigation'
 
 export default function Layout({children}) {
 	return (

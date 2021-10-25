@@ -1,7 +1,7 @@
 import * as PropTypes from 'prop-types'
-import Bookmark from './bookmark'
-import QualitiesList from './qualitiesList'
-import Table from './table'
+import Bookmark from './Bookmark'
+import QualitiesList from './QualitiesList'
+import Table from './Table'
 import {Link} from 'react-router-dom'
 
 export default function UsersTable({users, onSort, selectedSort, onToggleBookmark, onDelete}) {

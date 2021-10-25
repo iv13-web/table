@@ -1,14 +1,14 @@
-import Pagination from './pagination'
+import Pagination from '../components/Pagination'
 import {useState, useEffect} from 'react'
 import {paginate} from '../utils/paginate'
-import GroupList from './groupList'
-import api from '../API/index'
+import GroupList from '../components/GroupList'
+import api from '../API'
 import _ from 'lodash'
-import SearchStatus from './searchStatus'
-import UsersTable from './usersTable'
-import Container from './container'
+import SearchStatus from '../components/SearchStatus'
+import UsersTable from '../components/UsersTable'
+import Container from '../components/Container'
 import {useParams} from 'react-router-dom'
-import User from './user'
+import User from './User'
 
 export default function Users() {
 	const [users, setUsers] = useState()
@@ -17,7 +17,6 @@ export default function Users() {
 	const [selectedProf, setSelectedProf] = useState()
 	const [sortBy, setSortBy] = useState({path: 'name', order: 'asc'})
 	const pageSize = 6
-	const {userId} = useParams()
 
 	useEffect(() => {
 		api.users.fetchAll().then(data => setUsers(data))
@@ -25,10 +24,6 @@ export default function Users() {
 
 	useEffect(() => {
 		api.professions.fetchAll().then(data => setProfessions(data))
-		// .then(data => console.log(data))
-		// api.professions.fetchAll().then(data => {
-		//   return setProfessions(Object.assign(data, {allProfessions: {name: 'Все професии'}}))
-		// })
 	}, [])
 
 	const deleteHandler = (userId) => {
@@ -61,41 +56,36 @@ export default function Users() {
 
 		return (
 			<Container>
-					{userId
-						? <User users={users} professions={professions}/>
-						: <>
-							<SearchStatus length={count}/>
-							<div className='row'>
-								{professions && (
-									<div className='col s2' style={{paddingLeft: 0}}>
-										<GroupList
-											items={professions}
-											selectedItem={selectedProf}
-											onSelectItem={selectItemHandler}
-										/>
-										<button className='btn btn-small waves-effect' onClick={clearFilter}>Очистить</button>
-									</div>
-								)}
-								{count &&
-								<UsersTable
-									users={usersCropped}
-									onSort={sortHandler}
-									selectedSort={sortBy}
-									onDelete={deleteHandler}
-									onToggleBookmark={toggleBookMarkHandler}
-								/>
-								}
-							</div>
-							<Pagination
-								itemsCount={count}
-								pageSize={pageSize}
-								onPageChange={pageChangeHandler}
-								currentPage={currentPage}
+				<SearchStatus length={count}/>
+				<div className='row'>
+					{professions && (
+						<div className='col s2' style={{paddingLeft: 0}}>
+							<GroupList
+								items={professions}
+								selectedItem={selectedProf}
+								onSelectItem={selectItemHandler}
 							/>
-						</>
+							<button className='btn btn-small waves-effect' onClick={clearFilter}>Очистить</button>
+						</div>
+					)}
+					{count &&
+						<UsersTable
+							users={usersCropped}
+							onSort={sortHandler}
+							selectedSort={sortBy}
+							onDelete={deleteHandler}
+							onToggleBookmark={toggleBookMarkHandler}
+						/>
 					}
+				</div>
+				<Pagination
+					itemsCount={count}
+					pageSize={pageSize}
+					onPageChange={pageChangeHandler}
+					currentPage={currentPage}
+				/>
 			</Container>
 		)
 	}
-	return <div className='container'><h3>Loading...</h3></div>
+	return <Container><h4>loading...</h4></Container>
 }

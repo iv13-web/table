@@ -1,4 +1,4 @@
-import Quality from './quality'
+import Quality from './Quality'
 import * as PropTypes from 'prop-types'
 
 export default function QualitiesList({qualities}) {

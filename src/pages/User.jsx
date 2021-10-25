@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router-dom'
-import api from '../API/index'
+import api from '../API'
 import _ from 'lodash'
-import QualitiesList from './qualitiesList'
+import QualitiesList from '../components/QualitiesList'
 
 export default function User() {
 	const history = useHistory()
