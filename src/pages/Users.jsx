@@ -9,12 +9,15 @@ import UsersTable from '../components/UsersTable'
 import Container from '../components/Container'
 import {useParams} from 'react-router-dom'
 import User from './User'
+import SearchBar from '../components/SearchBar'
 
 export default function Users() {
 	const [users, setUsers] = useState()
 	const [professions, setProfessions] = useState()
 	const [currentPage, setCurrentPage] = useState(1)
 	const [selectedProf, setSelectedProf] = useState()
+	const [searchTemp, setSearchTemp] = useState('')
+	const [searchedUsers, setSearchedUsers] = useState()
 	const [sortBy, setSortBy] = useState({path: 'name', order: 'asc'})
 	const pageSize = 6
 
@@ -37,20 +40,40 @@ export default function Users() {
 		setUsers(updatedUsers)
 	}
 
+	const handleUserSearch = e => {
+		setSearchTemp(e.target.value)
+		setSelectedProf()
+	}
+
 	const pageChangeHandler = (pageNum) => setCurrentPage(pageNum)
 
 	const sortHandler = (item) => setSortBy(item)
 
-	if (users) {
-		const filteredUsers = selectedProf
-			? users.filter(user => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
-			: users
+	useEffect(() => {
+		users && setSearchedUsers(users.filter(user => {
+			return user.name.toLowerCase().includes(searchTemp.toLowerCase())
+		}))
+	}, [searchTemp, selectedProf])
 
-		const count = filteredUsers.length
-		const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
+	if (users) {
+		let usersToRender
+
+		if (selectedProf) {
+			usersToRender = users.filter(user => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
+		} else if (searchedUsers) {
+			usersToRender = searchedUsers
+		} else {
+			usersToRender = users
+		}
+
+		const count = usersToRender.length
+		const sortedUsers = _.orderBy(usersToRender, [sortBy.path], [sortBy.order])
 		const usersCropped = paginate(sortedUsers, currentPage, pageSize)
 
-		const selectItemHandler = item => setSelectedProf(item)
+		const selectItemHandler = item => {
+			setSearchTemp('')
+			setSelectedProf(item)
+		}
 
 		const clearFilter = () => setSelectedProf()
 
@@ -68,6 +91,7 @@ export default function Users() {
 							<button className='btn btn-small waves-effect' onClick={clearFilter}>Очистить</button>
 						</div>
 					)}
+					<SearchBar onChange={handleUserSearch} searchTemp={searchTemp}/>
 					{count &&
 						<UsersTable
 							users={usersCropped}
